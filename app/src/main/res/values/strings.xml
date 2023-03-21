@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SJR Tyres Sales</string>
+
+
+    <string name="mark_in_time">Mark In Time </string>
+    <string name="mark_out_time">Mark Out Time </string>
+    <string name="meetings">Meetings</string>
+    <string name="in_out">IN OUT</string>
 </resources>

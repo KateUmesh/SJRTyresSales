@@ -2,7 +2,7 @@
 <resources>
     <color name="purple_200">#ff7043</color>
     <color name="colorPrimary">#ff7043</color>
-    <color name="purple_700">#ff5722</color>
+    <color name="colorPrimaryDark">#ff5722</color>
     <color name="teal_200">#ff5722</color>
     <color name="teal_700">#ff5722</color>
     <color name="black">#FF000000</color>
@@ -16,4 +16,7 @@
     <color name="grey_40">#999999</color>
     <color name="grey_10">#e6e6e6</color>
     <color name="overlay_dark_40">#66000000</color>
+    <color name="Green">#348738</color>
+    <color name="colorPrimaryDark1">#b0003a</color>
+
 </resources>
