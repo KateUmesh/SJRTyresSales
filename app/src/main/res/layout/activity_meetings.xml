@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activities.MeetingsActivity">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/toolbar_layout"/>
+                </com.google.android.material.appbar.AppBarLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/ll_edit_basic_info"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:visibility="visible">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:padding="16dp">
+
+                    <!--Shop Name-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/shop_name"
+                        android:layout_marginBottom="10dp"
+                        >
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                            android:singleLine="true"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Distributor Name-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/distributor_name"
+                        android:layout_marginBottom="10dp"
+                        >
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_first_name_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                            android:singleLine="true"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Distributor Mobile-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ti_alt_phone_edit"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:visibility="visible"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_phone_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/distributor_mobile"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:maxLength="10"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_btn_save_changes_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="bottom"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    app:cornerRadius="0dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <include layout="@layout/item_loading_layout"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

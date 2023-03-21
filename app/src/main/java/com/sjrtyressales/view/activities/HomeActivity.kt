@@ -19,5 +19,12 @@ class HomeActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
         }
+
+        /**Meetings*/
+        binding.fabMeetings.setOnClickListener {
+            val intent= Intent(this,MeetingsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+        }
     }
 }

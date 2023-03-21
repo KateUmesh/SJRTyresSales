@@ -12,7 +12,10 @@
         android:theme="@style/Theme.SJRTyresSales"
         tools:targetApi="31">
         <activity
-            android:name=".InOutActivity"
+            android:name=".view.activities.MeetingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activities.InOutActivity"
             android:exported="false" />
         <activity
             android:name=".view.activities.LoginActivity"

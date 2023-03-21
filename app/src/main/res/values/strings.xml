@@ -6,4 +6,8 @@
     <string name="mark_out_time">Mark Out Time </string>
     <string name="meetings">Meetings</string>
     <string name="in_out">IN OUT</string>
+    <string name="submit">Submit</string>
+    <string name="shop_name">Shop Name</string>
+    <string name="distributor_name">Distributor Name</string>
+    <string name="distributor_mobile">Distributor Mobile</string>
 </resources>
