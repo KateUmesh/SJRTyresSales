@@ -11,7 +11,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activities.MeetingsActivity">
+        tools:context=".view.activities.AllowanceActivity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -25,7 +25,8 @@
                 <com.google.android.material.appbar.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <include layout="@layout/toolbar_layout"/>
+
+                    <include layout="@layout/toolbar_layout" />
                 </com.google.android.material.appbar.AppBarLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -37,6 +38,7 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:visibility="visible">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -44,12 +46,12 @@
                     android:visibility="visible"
                     android:padding="16dp">
 
-                    <!--Shop Name-->
+                    <!--Title-->
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/shop_name"
+                        android:hint="@string/title"
                         android:layout_marginBottom="10dp"
                         >
 
@@ -62,45 +64,16 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!--Distributor Name-->
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <!--Capture Photo-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCapturePhoto"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/distributor_name"
-                        android:layout_marginBottom="10dp"
-                        >
+                        android:layout_height="56dp"
+                        style="@style/primaryDarkBackground_button"
+                        android:text="@string/capture_photo"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"/>
 
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_first_name_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <!--Distributor Mobile-->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ti_alt_phone_edit"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:visibility="visible"
-                        >
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_phone_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/distributor_mobile"
-                            android:inputType="number"
-                            android:singleLine="true"
-                            android:maxLength="10"
-                            />
-                    </com.google.android.material.textfield.TextInputLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -130,9 +103,10 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include layout="@layout/item_loading_layout"/>
+        <include layout="@layout/item_loading_layout" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

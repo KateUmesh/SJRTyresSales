@@ -2,12 +2,26 @@
     <string name="app_name">SJR Tyres Sales</string>
 
 
+    <!--IN OUT-->
     <string name="mark_in_time">Mark In Time </string>
     <string name="mark_out_time">Mark Out Time </string>
-    <string name="meetings">Meetings</string>
-    <string name="in_out">IN OUT</string>
+
+    <!--Meetings-->
     <string name="submit">Submit</string>
     <string name="shop_name">Shop Name</string>
     <string name="distributor_name">Distributor Name</string>
     <string name="distributor_mobile">Distributor Mobile</string>
+
+    <!--Home-->
+    <string name="in_out">IN OUT</string>
+    <string name="meetings">Meetings</string>
+    <string name="history">History</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="allowance">Allowance</string>
+    <string name="logout">Logout</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="title">Title</string>
+    <string name="capture_photo">Capture photo</string>
 </resources>
