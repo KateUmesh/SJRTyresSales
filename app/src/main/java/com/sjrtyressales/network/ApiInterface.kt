@@ -1,6 +1,7 @@
 package com.sjrtyressales.network
 
 import com.sjrtyressales.model.ModelDashboardResponse
+import com.sjrtyressales.model.ModelHistoryResponse
 import com.sjrtyressales.model.ModelLoginRequest
 import com.sjrtyressales.model.ModelLoginResponse
 import com.sjrtyressales.utils.Constant
@@ -16,4 +17,7 @@ interface ApiInterface {
 
     @GET(Constant.dashboard)
     suspend fun getDashBoard():Response<ModelDashboardResponse>
+
+    @GET(Constant.meetingHistory)
+    suspend fun getMeetingHistory():Response<ModelHistoryResponse>
 }

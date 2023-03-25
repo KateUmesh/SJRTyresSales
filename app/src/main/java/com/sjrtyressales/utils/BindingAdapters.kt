@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sjrtyressales.R
 import com.sjrtyressales.adapter.DashboardAdapter
+import com.sjrtyressales.adapter.HistoryAdapter
+import com.sjrtyressales.model.MeetingHistoryList
 import com.sjrtyressales.model.TodaysMeetingsList
 
 @BindingAdapter("imageFromUrl")
@@ -22,6 +24,14 @@ fun ImageView.imageFromUrl(url: String?) {
 fun RecyclerView.bindRecyclerView1(list: List<TodaysMeetingsList>?) {
     this.setHasFixedSize(true)
     val adapter = DashboardAdapter()
+    this.adapter = adapter
+    adapter.submitList(list)
+}
+
+@BindingAdapter("historyList")
+fun RecyclerView.bindRecyclerView2(list: List<MeetingHistoryList>?) {
+    this.setHasFixedSize(true)
+    val adapter = HistoryAdapter()
     this.adapter = adapter
     adapter.submitList(list)
 }

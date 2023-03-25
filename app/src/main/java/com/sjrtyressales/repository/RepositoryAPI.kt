@@ -9,4 +9,6 @@ class RepositoryAPI @Inject constructor(private val apiInterface: ApiInterface) 
     suspend fun postLogin(mModelLoginRequest: ModelLoginRequest) = apiInterface.login(mModelLoginRequest)
 
     suspend fun getDashboard() = apiInterface.getDashBoard()
+
+    suspend fun getMeetingHistory() = apiInterface.getMeetingHistory()
 }

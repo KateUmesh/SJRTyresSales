@@ -38,6 +38,7 @@
     <string name="no_internet_connection">No Internet Connection</string>
 
     <string name="No_results_dashboard">Your dashboard data will appear here.</string>
+    <string name="No_results_history">Your history will appear here.</string>
 
 
 </resources>
