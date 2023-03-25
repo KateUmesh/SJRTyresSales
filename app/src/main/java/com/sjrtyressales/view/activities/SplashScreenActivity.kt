@@ -6,17 +6,29 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.sjrtyressales.R
+import com.sjrtyressales.utils.Constant
+import com.sjrtyressales.utils.LocalSharedPreferences
+import com.sjrtyressales.utils.callHomeActivity
+import com.sjrtyressales.utils.callLoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
+    lateinit var localSharedPreferences: LocalSharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
 
+        localSharedPreferences = LocalSharedPreferences(this)
+
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent  =  Intent(this,LoginActivity::class.java)
-            startActivity(intent)
-            finish()},1000)
+            if(localSharedPreferences.getStringValue(Constant.token).isNullOrEmpty()) {
+                callLoginActivity(this)
+            }else{
+                callHomeActivity(this)
+            }
+        }, 1000)
 
     }
 }

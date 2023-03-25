@@ -8,7 +8,9 @@ import androidx.databinding.DataBindingUtil
 import com.sjrtyressales.R
 import com.sjrtyressales.databinding.ActivityHomeBinding
 import com.sjrtyressales.utils.logout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     lateinit var binding : ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {

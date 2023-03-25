@@ -28,6 +28,11 @@
 
     <style name="primaryDarkBackground_button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="primaryDark1BackgroundButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
         <item name="backgroundTint">@color/colorPrimaryDark1</item>
     </style>
 

@@ -66,11 +66,21 @@
 
                     <!--Capture Photo-->
                     <com.google.android.material.button.MaterialButton
+                        android:layout_marginBottom="10dp"
                         android:id="@+id/btnCapturePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        style="@style/primaryDarkBackground_button"
+                        style="@style/primaryDark1BackgroundButton"
                         android:text="@string/capture_photo"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        style="@style/primaryDarkBackground_button"
+                        android:text="@string/submit"
                         android:textSize="16sp"
                         android:textAllCaps="false"/>
 
@@ -79,29 +89,6 @@
 
             </androidx.core.widget.NestedScrollView>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llBtnSubmit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:visibility="visible"
-                android:orientation="vertical">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSubmit"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_gravity="bottom"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/submit"
-                    android:textAllCaps="false"
-                    android:textSize="16sp"
-                    android:visibility="visible"
-                    app:cornerRadius="0dp" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
