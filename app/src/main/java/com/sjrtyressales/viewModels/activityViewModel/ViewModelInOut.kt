@@ -63,11 +63,11 @@ class ViewModelInOut @Inject constructor(
         }
     }
 
-    fun submitInTime(){
+    fun submitInTime(latitude:Double,longitude:Double){
         if(networkConnection.isNetworkConnected()){
             viewModelScope.launch {
                 try{
-                    val response = repositoryAPI.submitInTime()
+                    val response = repositoryAPI.submitInTime(latitude,longitude)
                     if (response.isSuccessful) {
                         mModelSubmitInOutTimeResponse.value = response.body()
                     } else {
@@ -92,11 +92,11 @@ class ViewModelInOut @Inject constructor(
         }
     }
 
-    fun submitOutTime(){
+    fun submitOutTime(latitude:Double,longitude:Double){
         if(networkConnection.isNetworkConnected()){
             viewModelScope.launch {
                 try{
-                    val response = repositoryAPI.submitOutTime()
+                    val response = repositoryAPI.submitOutTime(latitude,longitude)
                     if (response.isSuccessful) {
                         mModelSubmitInOutTimeResponse.value = response.body()
                     } else {

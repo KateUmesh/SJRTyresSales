@@ -8,65 +8,65 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sjrtyressales.R
 import com.sjrtyressales.callbacks.SnackBarCallback
-import com.sjrtyressales.databinding.ActivityDashboardBinding
+import com.sjrtyressales.databinding.ActivityHistoryBinding
+import com.sjrtyressales.databinding.ActivityMeetingDetailsBinding
+import com.sjrtyressales.utils.Constant
 import com.sjrtyressales.utils.logout
 import com.sjrtyressales.utils.showSnackBar
 import com.sjrtyressales.utils.toolbar
-import com.sjrtyressales.viewModels.activityViewModel.ViewModelDashboard
+import com.sjrtyressales.viewModels.activityViewModel.ViewModelHistory
+import com.sjrtyressales.viewModels.activityViewModel.ViewModelMeetingDetails
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashboardActivity : AppCompatActivity(),SnackBarCallback {
-    lateinit var binding: ActivityDashboardBinding
-    private lateinit var mViewModel:ViewModelDashboard
+class MeetingDetailsActivity : AppCompatActivity(),SnackBarCallback {
+   private lateinit var binding: ActivityMeetingDetailsBinding
+    private lateinit var mViewModel: ViewModelMeetingDetails
+    private var meetingId:Int=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_dashboard)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_meeting_details)
 
         /**Toolbar*/
-        toolbar(getString(R.string.dashboard),true)
+        toolbar(getString(R.string.meeting_details),true)
 
         /**Initialize View Model*/
-        mViewModel = ViewModelProvider(this)[ViewModelDashboard::class.java]
+        mViewModel = ViewModelProvider(this)[ViewModelMeetingDetails::class.java]
+
+        /**Get meetingId From HistoryActivity*/
+        if(!intent.getStringExtra(Constant.meetingId).isNullOrEmpty()) {
+            meetingId =intent.getStringExtra(Constant.meetingId)!!.toInt()
+        }
 
         /**Check user is log in or not*/
         if(mViewModel.token.isNullOrEmpty()){
             logout(this)
         }else{
+            /**Call viewMeetingDetails GET Api*/
+            mViewModel.viewMeetingDetails(meetingId)
 
-            /**Call dashboard GET api*/
-            mViewModel.getDashboard()
-
-            /**Response of dashboard GET api*/
-            mViewModel.dashboardResponse.observe(this, Observer {
+            /**Response of viewMeetingDetails GET Api*/
+            mViewModel.MeetingDetailsResponse.observe(this, Observer {
                 binding.includedLoader.llLoading.visibility = View.GONE
                 if (it.status == "1") {
-                    if (it.data?.recent_meetings==null || it.data?.recent_meetings!!.isEmpty()) {
-                        binding.llDashboardMain.visibility = View.GONE
-                        binding.llDashboardNoData.visibility = View.VISIBLE
-                    }else{
-                        binding.llDashboardMain.visibility = View.VISIBLE
-                        binding.llDashboardNoData.visibility = View.GONE
-                        binding.dashboardData = it.data
-
-                    }
+                    binding.llMeetingDetailsMain.visibility = View.VISIBLE
+                    binding.data = it.data
                 } else if (it.status == "0") {
                     /*if (it.data?.userActive == "0") {
                         logout()
                     }*/
                 } else {
                     binding.includedLoader.llLoading.visibility = View.VISIBLE
-                    binding.llDashboardMain.visibility = View.GONE
+                    binding.llMeetingDetailsMain.visibility = View.GONE
                     showSnackBar(this, it.message)
                 }
 
             })
-
         }
     }
 
     override fun snackBarSuccessInternetConnection() {
-        mViewModel.getDashboard()
+        mViewModel.viewMeetingDetails(meetingId)
     }
 
     override fun snackBarfFailInternetConnection() {

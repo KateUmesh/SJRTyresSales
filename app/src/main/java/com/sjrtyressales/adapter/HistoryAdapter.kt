@@ -1,6 +1,7 @@
 package com.sjrtyressales.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sjrtyressales.databinding.ItemHistoryListBinding
 import com.sjrtyressales.model.MeetingHistoryList
+import com.sjrtyressales.utils.callMeetingDetailsActivity
 import javax.inject.Inject
 
 class HistoryAdapter @Inject constructor(): ListAdapter<MeetingHistoryList,HistoryAdapter.HistoryViewHolder>(AboutUsDiffCallback) {
@@ -25,6 +27,10 @@ class HistoryAdapter @Inject constructor(): ListAdapter<MeetingHistoryList,Histo
     class HistoryViewHolder(val binding: ItemHistoryListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item:MeetingHistoryList){
             binding.listItem=item
+
+            binding.lytParent.setOnClickListener {
+                callMeetingDetailsActivity(it.context,item.id_meeting)
+            }
         }
 
     }

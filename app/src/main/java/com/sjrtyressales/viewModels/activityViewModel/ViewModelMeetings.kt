@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sjrtyressales.model.ModelCheckMeetingNotEndResponse
 import com.sjrtyressales.model.ModelStartMeetingRequest
 import com.sjrtyressales.model.ModelStartMeetingResponse
 import com.sjrtyressales.repository.RepositoryAPI
@@ -23,6 +24,10 @@ class ViewModelMeetings @Inject constructor(val repositoryAPI: RepositoryAPI,
     var mModelStartMeetingResponse = MediatorLiveData<ModelStartMeetingResponse>()
     val StartMeetingResponse : LiveData<ModelStartMeetingResponse>
     get()= mModelStartMeetingResponse
+
+    var mModelCheckMeetingNotEndResponse = MediatorLiveData<ModelCheckMeetingNotEndResponse>()
+    val CheckMeetingNotEndResponse : LiveData<ModelCheckMeetingNotEndResponse>
+        get()= mModelCheckMeetingNotEndResponse
 
     var token = localSharedPreferences.getStringValue(Constant.token)
 
@@ -56,8 +61,33 @@ class ViewModelMeetings @Inject constructor(val repositoryAPI: RepositoryAPI,
 
     }
 
-    fun putToken(value:String){
-        localSharedPreferences.putStringValue(Constant.token,value)
+    fun checkMeetingNotEnd(){
+
+        if(networkConnection.isNetworkConnected()) {
+            viewModelScope.launch {
+                try {
+                    val response = repositoryAPI.checkMeetingNotEnd()
+                    if (response.isSuccessful) {
+                        mModelCheckMeetingNotEndResponse.value = response.body()
+                    } else {
+                        mModelCheckMeetingNotEndResponse.value = ModelCheckMeetingNotEndResponse("", response.message(),null)
+                    }
+
+                } catch (e: Exception) {
+                    if (e is SocketTimeoutException) {
+                        mModelCheckMeetingNotEndResponse.value = ModelCheckMeetingNotEndResponse(
+                            "",
+                            Constant.slow_internet_connection_detected,null
+                        )
+                    } else {
+                        mModelCheckMeetingNotEndResponse.value =
+                            ModelCheckMeetingNotEndResponse("", Constant.something_went_wrong,null)
+                    }
+                }
+            }
+        }else{
+            mModelCheckMeetingNotEndResponse.value = ModelCheckMeetingNotEndResponse("",Constant.no_internet_connection,null)
+        }
     }
 
 }

@@ -57,6 +57,7 @@
     <string name="title_required">Title required</string>
     <string name="amount_required">Amount required</string>
     <string name="photo_required">Photo required</string>
+    <string name="meeting_details">Meeting Details</string>
 
 
 </resources>

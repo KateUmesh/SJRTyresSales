@@ -5,6 +5,7 @@ import com.sjrtyressales.model.ModelStartMeetingRequest
 import com.sjrtyressales.network.ApiInterface
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class RepositoryAPI @Inject constructor(private val apiInterface: ApiInterface) {
@@ -20,12 +21,15 @@ class RepositoryAPI @Inject constructor(private val apiInterface: ApiInterface) 
         apiInterface.startMeeting(mModelStartMeetingRequest)
 
     suspend fun getAttendance() = apiInterface.getAttendance()
-    suspend fun submitInTime() = apiInterface.submitInTime()
-    suspend fun submitOutTime() = apiInterface.submitOutTime()
+    suspend fun checkMeetingNotEnd() = apiInterface.checkMeetingNotEnd()
+    suspend fun submitInTime(latitude:Double,longitude:Double) = apiInterface.submitInTime(latitude,longitude)
+    suspend fun submitOutTime(latitude:Double,longitude:Double) = apiInterface.submitOutTime(latitude,longitude)
 
     suspend fun uploadProfilePhoto(photo: MultipartBody.Part)=
         apiInterface.uploadProfilePhoto(photo)
 
     suspend fun postAllowance(photo: MultipartBody.Part,title:RequestBody,amount:RequestBody)=
         apiInterface.postAllowance(photo,title, amount)
+
+    suspend fun viewMeetingDetails(meetingId:Int)=apiInterface.viewMeetingDetails(meetingId)
 }

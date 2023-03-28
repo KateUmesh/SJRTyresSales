@@ -16,6 +16,7 @@ import com.sjrtyressales.R
 import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.view.activities.HomeActivity
 import com.sjrtyressales.view.activities.LoginActivity
+import com.sjrtyressales.view.activities.MeetingDetailsActivity
 
 
 fun Context.toast(message: CharSequence) =
@@ -28,6 +29,12 @@ fun AppCompatActivity.toolbar(title: String, backArrow:Boolean)
     this.supportActionBar!!.setDisplayHomeAsUpEnabled(backArrow)
     Tools.setSystemBarColor(this)
     toolbar.setNavigationOnClickListener { this.onBackPressed() }
+}
+
+fun callMeetingDetailsActivity(context: Context, meetingId: String) {
+    val intent = Intent(context, MeetingDetailsActivity::class.java)
+    intent.putExtra(Constant.meetingId, meetingId)
+    context.startActivity(intent)
 }
 
 fun callLoginActivity(activity:Activity) {

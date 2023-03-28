@@ -51,8 +51,9 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@color/grey_10"
-                    app:tint="@android:color/white" />
+                    android:src="@drawable/logo"
+                    android:background="@color/black"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"

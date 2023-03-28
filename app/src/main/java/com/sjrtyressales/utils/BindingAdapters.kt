@@ -8,6 +8,7 @@ import com.sjrtyressales.R
 import com.sjrtyressales.adapter.DashboardAdapter
 import com.sjrtyressales.adapter.HistoryAdapter
 import com.sjrtyressales.model.MeetingHistoryList
+import com.sjrtyressales.model.RecentMeetingsList
 import com.sjrtyressales.model.TodaysMeetingsList
 
 @BindingAdapter("imageFromUrl")
@@ -21,7 +22,7 @@ fun ImageView.imageFromUrl(url: String?) {
 }
 
 @BindingAdapter("dashboardList")
-fun RecyclerView.bindRecyclerView1(list: List<TodaysMeetingsList>?) {
+fun RecyclerView.bindRecyclerView1(list: List<RecentMeetingsList>?) {
     this.setHasFixedSize(true)
     val adapter = DashboardAdapter()
     this.adapter = adapter

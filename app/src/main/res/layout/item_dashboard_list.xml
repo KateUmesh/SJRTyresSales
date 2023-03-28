@@ -8,7 +8,7 @@
 
         <variable
             name="listItem"
-            type="com.sjrtyressales.model.TodaysMeetingsList" />
+            type="com.sjrtyressales.model.RecentMeetingsList" />
     </data>
 
     <LinearLayout
@@ -25,52 +25,6 @@
             android:layout_width="@dimen/spacing_large"
             android:layout_height="0dp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/lyt_checked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="@dimen/spacing_xmlarge"
-                    android:layout_height="@dimen/spacing_xmlarge"
-                    android:src="@drawable/shape_circle"
-                    app:tint="@color/blue_grey_600" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerInParent="true"
-                    app:srcCompat="@drawable/ic_done" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/lyt_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="@dimen/spacing_xmlarge"
-                    android:layout_height="@dimen/spacing_xmlarge" />
-
-                <TextView
-                    android:id="@+id/image_letter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="@dimen/spacing_smlarge"
-            android:layout_height="0dp" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -94,6 +48,14 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{listItem.meeting_start_date}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/blue_300" />
+
+                <TextView
                     android:id="@+id/message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,17 +64,9 @@
                     android:text="@{listItem.meeting_conclusion}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/grey_40" />
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:text="@{listItem.meeting_start_time}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/blue_300" />
+
+            </LinearLayout>
         </RelativeLayout>
 
         <View

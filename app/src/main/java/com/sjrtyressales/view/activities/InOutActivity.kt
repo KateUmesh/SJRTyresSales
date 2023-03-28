@@ -2,18 +2,18 @@ package com.sjrtyressales.view.activities
 
 import android.Manifest
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentSender
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -40,6 +40,8 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
     private lateinit var mViewModel:ViewModelInOut
     private lateinit var binding:ActivityInOutBinding
     private var callback = "0"
+    private var latitude:Double=0.0
+    private var longitude:Double=0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +99,7 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                                 binding.btnInTime.visibility = View.VISIBLE
                                 binding.btnInTime.setOnClickListener {
                                     binding.includedLoader.llLoading.visibility = View.VISIBLE
-                                    mViewModel.submitInTime()
+                                    mViewModel.submitInTime(latitude, longitude)
                                 }
                             } else {
                                 binding.btnInTime.visibility = View.GONE
@@ -107,7 +109,7 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                                 binding.btnOutTime.visibility = View.VISIBLE
                                 binding.btnOutTime.setOnClickListener {
                                     binding.includedLoader.llLoading.visibility = View.VISIBLE
-                                    mViewModel.submitOutTime()
+                                    mViewModel.submitOutTime(latitude,longitude)
                                 }
                             } else {
                                 binding.btnOutTime.visibility = View.GONE
@@ -157,6 +159,24 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
             mViewModel.getAttendance()
         }
         builder.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onStart() {
+        super.onStart()
+        if (checkPermission()) {
+            startMyNavigationService()
+        } else {
+            requestPermission()
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            myReceiver!!, IntentFilter(GpsTracker.ACTION_BROADCAST)
+        )
     }
 
 
@@ -217,8 +237,9 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                 LocalBroadcastManager.getInstance(this@InOutActivity).unregisterReceiver(myReceiver!!)
                 stopMyNavigationService()
                 if (location != null) {
-                   val latitude = location.latitude.toString()
-                   val longitude = location.longitude.toString()
+                    latitude = location.latitude
+                    longitude = location.longitude
+                    Log.e("latitude","Lat:"+latitude+", Long:"+longitude)
                 } else {
 
                 }
@@ -268,7 +289,7 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
         showSnackBar(this,getString(R.string.no_internet_connection))
     }
 
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (REQUEST_CODE_CHECK_SETTINGS == requestCode) {
             if (RESULT_OK == resultCode) {
@@ -277,6 +298,6 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
 
             }
         }
-    }*/
+    }
 
 }
