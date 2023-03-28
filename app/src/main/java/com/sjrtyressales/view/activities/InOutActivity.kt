@@ -11,34 +11,152 @@ import android.graphics.Bitmap
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.sjrtyressales.R
-import com.sjrtyressales.utils.GpsTracker
-import com.sjrtyressales.utils.toolbar
+import com.sjrtyressales.callbacks.SnackBarCallback
+import com.sjrtyressales.databinding.ActivityInOutBinding
+import com.sjrtyressales.utils.*
+import com.sjrtyressales.viewModels.activityViewModel.ViewModelInOut
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.internal.notifyAll
 
-class InOutActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class InOutActivity : AppCompatActivity(),SnackBarCallback {
 
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     var REQUEST_CODE_CHECK_SETTINGS=123
     var mServiceIntent: Intent? = null
     private var myReceiver: MyReceiver? = null
 
+    private lateinit var mViewModel:ViewModelInOut
+    private lateinit var binding:ActivityInOutBinding
+    private var callback = "0"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myReceiver = MyReceiver()
-        setContentView(R.layout.activity_in_out)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_in_out)
 
         mServiceIntent = Intent(this, GpsTracker::class.java)
 
         /**Toolbar*/
         toolbar(getString(R.string.in_out),true)
 
+        /**Initialize View Model*/
+        mViewModel = ViewModelProvider(this)[ViewModelInOut::class.java]
 
+
+        /**Check user is log in or not*/
+        if(mViewModel.token.isNullOrEmpty()){
+            logout(this)
+        }else {
+            /**Call attendance  GET Api*/
+            mViewModel.getAttendance()
+
+            /**Response of attendance  GET Api*/
+            mViewModel.AttendanceResponse.observe(this) {
+                binding.includedLoader.llLoading.visibility = View.GONE
+                when (it.status) {
+                    "1" -> {
+                        binding.llAttendance.visibility = View.VISIBLE
+                        if (it.data != null) {
+                            if (!it.data?.currentTime.isNullOrEmpty()) {
+                                binding.tvCurrentTime.visibility = View.VISIBLE
+                                binding.tvCurrentTime.text =
+                                    getString(R.string.current_time) + it.data?.currentTime
+                            } else {
+                                binding.tvCurrentTime.visibility = View.GONE
+                            }
+
+                            if (!it.data?.inTime.isNullOrEmpty()) {
+                                binding.tvInTime.visibility = View.VISIBLE
+                                binding.tvInTime.text =
+                                    getString(R.string.in_time) + " - " + it.data?.inTime
+                            } else {
+                                binding.tvInTime.visibility = View.GONE
+                            }
+
+                            if (!it.data?.outTime.isNullOrEmpty()) {
+                                binding.tvOutTime.visibility = View.VISIBLE
+                                binding.tvOutTime.text =
+                                    getString(R.string.out_time) + " - " + it.data?.outTime
+                            } else {
+                                binding.tvOutTime.visibility = View.GONE
+                            }
+
+                            if (it.data?.inTimeButton == 1) {
+                                binding.btnInTime.visibility = View.VISIBLE
+                                binding.btnInTime.setOnClickListener {
+                                    binding.includedLoader.llLoading.visibility = View.VISIBLE
+                                    mViewModel.submitInTime()
+                                }
+                            } else {
+                                binding.btnInTime.visibility = View.GONE
+                            }
+
+                            if (it.data?.outTimeButton == 1) {
+                                binding.btnOutTime.visibility = View.VISIBLE
+                                binding.btnOutTime.setOnClickListener {
+                                    binding.includedLoader.llLoading.visibility = View.VISIBLE
+                                    mViewModel.submitOutTime()
+                                }
+                            } else {
+                                binding.btnOutTime.visibility = View.GONE
+                            }
+                        }
+                    }
+                    "0" -> {
+                        snackBar(it.message, this)
+                    }
+                    else -> {
+                        showSnackBar(this, it.message)
+                    }
+                }
+            }
+
+            /**Response of submitInTime or submitOutTime GET api*/
+            mViewModel.SubmitInOutTimeResponse.observe(this) {
+                binding.includedLoader.llLoading.visibility = View.GONE
+                when (it.status) {
+                    "1" -> {
+                        showOkDialog(it.message)
+                    }
+                    "0" -> {
+                        snackBar(it.message, this)
+                    }
+                    else -> {
+                        callback = it.status
+                        showSnackBar(this, it.message)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    fun showOkDialog(message: String) {
+        val builder =
+            AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.app_name) as CharSequence)
+        builder.setMessage(message)
+        builder.setCancelable(false)
+        builder.setPositiveButton(
+            R.string.ok
+        ) { _, _ ->
+            binding.includedLoader.llLoading.visibility = View.VISIBLE
+            mViewModel.getAttendance()
+        }
+        builder.show()
     }
 
 
@@ -140,6 +258,14 @@ class InOutActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    override fun snackBarSuccessInternetConnection() {
+
+    }
+
+    override fun snackBarfFailInternetConnection() {
+        showSnackBar(this,getString(R.string.no_internet_connection))
     }
 
     /*override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {

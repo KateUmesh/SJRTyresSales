@@ -54,6 +54,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/CropTheme"/>
+
         <service
             android:name=".utils.GpsTracker"
             android:enabled="true"

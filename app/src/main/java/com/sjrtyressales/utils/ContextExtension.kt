@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +17,9 @@ import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.view.activities.HomeActivity
 import com.sjrtyressales.view.activities.LoginActivity
 
+
+fun Context.toast(message: CharSequence) =
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 fun AppCompatActivity.toolbar(title: String, backArrow:Boolean)
 {
     val toolbar = this.findViewById<View>(R.id.toolbar) as Toolbar
@@ -75,6 +79,19 @@ fun showOkDialog(title: String,message: String, context: Context) {
     builder.setPositiveButton(
         R.string.Ok
     ) { _, _ -> }
+    builder.show()
+}
+
+fun showOkToFinishDialog(title: String,message: String, context: Context) {
+    val builder =
+        AlertDialog.Builder(context)
+    builder.setTitle(title as CharSequence)
+    builder.setMessage(message)
+    builder.setPositiveButton(
+        R.string.Ok
+    ) { _, _ ->
+        (context as Activity).finish()
+    }
     builder.show()
 }
 

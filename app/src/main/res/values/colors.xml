@@ -12,6 +12,7 @@
     <color name="grey_90">#263238</color>
     <color name="grey_80">#37474f</color>
     <color name="grey_40">#999999</color>
+    <color name="grey_20">#cccccc</color>
     <color name="grey_10">#e6e6e6</color>
     <color name="overlay_dark_40">#66000000</color>
     <color name="Green">#348738</color>

@@ -13,5 +13,12 @@ class Constant {
         const val login="sjr_tyres_sales_app/app/user/login"
         const val dashboard="sjr_tyres_sales_app/app/user/dashboard"
         const val meetingHistory="sjr_tyres_sales_app/app/user/meetingHistory"
+        const val startMeeting="sjr_tyres_sales_app/app/user/startMeeting"
+        const val attendance="sjr_tyres_sales_app/app/user/attendance"
+        const val submitInTime="sjr_tyres_sales_app/app/user/submitInTime"
+        const val submitOutTime="sjr_tyres_sales_app/app/user/submitOutTime"
+        const val updateProfilePhoto="sjr_tyres_sales_app/app/user/updateProfilePhoto"
+        const val updateLiveLocation="sjr_tyres_sales_app/app/user/updateLiveLocation"
+        const val allowance="sjr_tyres_sales_app/app/user/allowance"
     }
 }

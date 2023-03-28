@@ -55,6 +55,7 @@
 
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtShopName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -73,7 +74,7 @@
 
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_first_name_edit"
+                            android:id="@+id/edtDistributorName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -83,7 +84,6 @@
 
                     <!--Distributor Mobile-->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ti_alt_phone_edit"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_phone_edit"
+                            android:id="@+id/edtDistributorMobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/distributor_mobile"
@@ -118,7 +118,9 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include layout="@layout/item_loading_layout"/>
+        <include
+            android:id="@+id/includedLoader"
+            layout="@layout/item_loading_layout"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

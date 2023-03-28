@@ -11,6 +11,9 @@
     <string name="shop_name">Shop Name</string>
     <string name="distributor_name">Distributor Name</string>
     <string name="distributor_mobile">Distributor Mobile</string>
+    <string name="shop_name_required">Shop name required</string>
+    <string name="distributor_name_required">Distributor name required</string>
+    <string name="distributor_mobile_required">Invalid distributor mobile number</string>
 
     <!--Home-->
     <string name="in_out">IN OUT</string>
@@ -39,6 +42,21 @@
 
     <string name="No_results_dashboard">Your dashboard data will appear here.</string>
     <string name="No_results_history">Your history will appear here.</string>
+    <string name="amount">Amount</string>
+
+    <string name="current_time">Current Time - </string>
+    <string name="in_time">In Time </string>
+    <string name="out_time">Out Time </string>
+    <string name="ok">Ok</string>
+
+    <string name="upload_profile_photo">Upload Profile Photo</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="profile_photo">Profile Photo</string>
+
+    <string name="title_required">Title required</string>
+    <string name="amount_required">Amount required</string>
+    <string name="photo_required">Photo required</string>
 
 
 </resources>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/clUploadProfilePhoto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bottom_sheet_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/upload_profile_photo"
+            android:textColor="#303a43"
+            android:textSize="16sp" />
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/shape_layout"
+                android:layout_width="144dp"
+                android:layout_height="144dp"
+                android:background="@drawable/circular_bordershape"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                >
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/myCardView"
+                    android:layout_gravity="center"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    app:cardCornerRadius="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_profile_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@color/grey_20"
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/include_edit_photo_loader"
+                layout="@layout/item_loading_layout_edit_photo"/>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="10"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:id="@+id/ll_gallery_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.33"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/attach_gallery"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:text="@string/gallery" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_camera_bottom_sheet"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.33"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/attach_camera"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:textColor="@android:color/black"
+                    android:text="@string/camera" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

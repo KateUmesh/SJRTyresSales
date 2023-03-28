@@ -57,9 +57,30 @@
 
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Amount-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/amount"
+                        android:layout_marginBottom="10dp"
+                        >
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:inputType="number"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +91,8 @@
                         android:id="@+id/btnCapturePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        style="@style/primaryDark1BackgroundButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:icon="@drawable/ic_camera"
                         android:text="@string/capture_photo"
                         android:textSize="16sp"
                         android:textAllCaps="false"/>
@@ -93,7 +115,9 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include layout="@layout/item_loading_layout" />
+        <include
+            android:id="@+id/includedLoader"
+            layout="@layout/item_loading_layout" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
