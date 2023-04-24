@@ -2,18 +2,28 @@
     <string name="app_name">SJR Tyres Sales</string>
 
 
+    <string name="new_version_available">New version available</string>
+
+
     <!--IN OUT-->
     <string name="mark_in_time">Mark In Time </string>
     <string name="mark_out_time">Mark Out Time </string>
 
     <!--Meetings-->
     <string name="submit">Submit</string>
+    <string name="create_meeting">Create Meeting</string>
     <string name="shop_name">Shop Name</string>
     <string name="distributor_name">Distributor Name</string>
     <string name="distributor_mobile">Distributor Mobile</string>
     <string name="shop_name_required">Shop name required</string>
     <string name="distributor_name_required">Distributor name required</string>
     <string name="distributor_mobile_required">Invalid distributor mobile number</string>
+    <string name="select_type">Select Type</string>
+    <string name="type_required">Type required</string>
+    <string name="mobile">Mobile</string>
+    <string name="name">Name</string>
+    <string name="name_required">Name required</string>
+
 
     <!--Home-->
     <string name="in_out">IN OUT</string>
@@ -21,13 +31,16 @@
     <string name="history">History</string>
     <string name="dashboard">Dashboard</string>
     <string name="allowance">Allowance</string>
+    <string name="profile">Profile</string>
     <string name="logout">Logout</string>
 
     <string name="cancel">Cancel</string>
 
     <string name="title">Title</string>
     <string name="capture_photo">Capture photo</string>
+    <string name="selfi_with_shop">Selfi with shop</string>
     <string name="camera_permission_rationale">Camera and Storage permissions is needed for capturing image through camera!</string>
+    <string name="location_permission_rationale">Location permissions is needed.</string>
     <string name="allow_permission">Permission required</string>
     <string name="Ok">Ok</string>
     <string name="Cancel">Cancel</string>
@@ -58,6 +71,18 @@
     <string name="amount_required">Amount required</string>
     <string name="photo_required">Photo required</string>
     <string name="meeting_details">Meeting Details</string>
+    <string name="endMeeting">End Meeting</string>
+    <string name="conclusion">Conclusion</string>
+    <string name="conclusion_required">Conclusion required</string>
+    <string name="update">Update</string>
+
+    <string name="change_password">Change Password</string>
+    <string name="new_password">New Password</string>
+    <string name="new_password_required">New password required</string>
+    <string name="invalid_mobile_number">Invalid mobile number</string>
+    <string name="background_location_permission_message">Please select Allow all the time option.</string>
+    <string name="service_start_successfully">Service started successfully</string>
+    <string name="service_already_running">Service already running</string>
 
 
 </resources>

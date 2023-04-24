@@ -1,6 +1,6 @@
 package com.sjrtyressales.model
 
-data class MeetingDetailsData(var meeting_details:MeetingDetails)
+data class MeetingDetailsData(var meeting_details:MeetingDetails,var userActive:String)
 
 data class MeetingDetails(
     var id_meeting:String,

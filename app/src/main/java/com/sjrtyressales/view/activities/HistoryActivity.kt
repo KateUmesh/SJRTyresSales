@@ -11,6 +11,7 @@ import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.databinding.ActivityHistoryBinding
 import com.sjrtyressales.utils.logout
 import com.sjrtyressales.utils.showSnackBar
+import com.sjrtyressales.utils.snackBar
 import com.sjrtyressales.utils.toolbar
 import com.sjrtyressales.viewModels.activityViewModel.ViewModelDashboard
 import com.sjrtyressales.viewModels.activityViewModel.ViewModelHistory
@@ -52,9 +53,11 @@ class HistoryActivity : AppCompatActivity(),SnackBarCallback {
 
                     }
                 } else if (it.status == "0") {
-                    /*if (it.data?.userActive == "0") {
-                        logout()
-                    }*/
+                    if (it.data?.userActive == "0") {
+                        logout(this)
+                    }else{
+                        snackBar(it.message,this)
+                    }
                 } else {
                     binding.includedLoader.llLoading.visibility = View.VISIBLE
                     binding.llHistoryMain.visibility = View.GONE

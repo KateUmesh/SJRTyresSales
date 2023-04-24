@@ -9,12 +9,14 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -28,17 +30,22 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class UploadPhoto @Inject constructor() {
 
+    private var fileUri: File? = null
     fun checkPermissionsToOpenCamera(
         context: Context,
         requestMultiplePermissions: ActivityResultLauncher<Array<String>>,
         cameraResultLauncher: ActivityResultLauncher<Intent>
-    ) {
+    ):File? {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) +
@@ -51,6 +58,7 @@ class UploadPhoto @Inject constructor() {
                 requestPermission1(requestMultiplePermissions)
             } else {
                 openCamera(cameraResultLauncher)
+                //openCamera(context,cameraResultLauncher)
             }
         } else {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) +
@@ -67,9 +75,11 @@ class UploadPhoto @Inject constructor() {
                 // Permission is not granted
                 requestPermission(requestMultiplePermissions)
             } else {
-                openCamera(cameraResultLauncher)
+               openCamera(cameraResultLauncher)
+                //openCamera(context,cameraResultLauncher)
             }
         }
+        return fileUri
     }
 
     fun requestPermission(requestMultiplePermissions: ActivityResultLauncher<Array<String>>) {
@@ -96,6 +106,32 @@ class UploadPhoto @Inject constructor() {
     fun openCamera(cameraResultLauncher: ActivityResultLauncher<Intent>) {
         val chooserIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraResultLauncher.launch(chooserIntent)
+    }
+
+    @Throws(IOException::class)
+    fun saveImage1(bitmap: Bitmap, name: String, resolver: ContentResolver): Uri {
+        val fos: OutputStream
+        val imageUri: Uri
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            //val resolver: ContentResolver = contentResolver
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$name.jpg")
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            imageUri =
+                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)!!
+            fos = resolver.openOutputStream(Objects.requireNonNull(imageUri))!!
+        } else {
+            val imagesDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    .toString()
+            val image = File(imagesDir, "$name.jpg")
+            imageUri = Uri.fromFile(image)
+            fos = FileOutputStream(image)
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        Objects.requireNonNull(fos).close()
+        return imageUri
     }
 
     fun saveImage(bitmap: Bitmap, name: String, resolver: ContentResolver): Uri {
@@ -240,5 +276,51 @@ class UploadPhoto @Inject constructor() {
             filePart
         )
         return file
+    }
+
+    fun openCamera(context: Context,cameraResultLauncher: ActivityResultLauncher<Intent>):File? {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        var photoURI: Uri? = null
+        try {
+            fileUri = createImageFile(context)
+            photoURI = FileProvider.getUriForFile(context,
+                "com.sjrtyressales.fileProvider",
+                fileUri!!
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+        cameraResultLauncher.launch(intent)
+        //startActivityForResult(intent, REQUEST_CODE_CAMERA_PICTURE)
+        return fileUri
+    }
+
+    @Throws(IOException::class)
+    fun createImageFile(context: Context): File? {
+        val timeStamp: String = SimpleDateFormat(
+            "dd-MMM-yyyy hh:mm a",
+            Locale.getDefault()
+        ).format(Date())
+        val imageFileName = "PROFILE_PICTURE_$timeStamp"
+        val image: File
+        val storageDir: File?
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            storageDir = File(
+                Environment.getExternalStorageDirectory()
+                    .getAbsolutePath() + File.separator + "Sjrtyressales"
+            )
+            if (!storageDir!!.exists()) {
+                storageDir.mkdirs()
+            }
+            image = File(storageDir, "$imageFileName.jpg")
+            image.createNewFile()
+        } else {
+            storageDir =
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES + File.separator + "Sjrtyressales")
+            image = File.createTempFile(imageFileName, ".jpg", storageDir)
+            val currentPhotoPath = image.absolutePath
+        }
+        return image
     }
 }

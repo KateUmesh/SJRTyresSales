@@ -20,6 +20,7 @@
     <color name="blue_grey_600">#546e7a</color>
     <color name="overlay_dark_10">#1a000000</color>
     <color name="blue_300">#64b5f6</color>
+    <color name="main_blue">#2196f3</color>
     <color name="Primary_text">#DE000000</color>
 
 </resources>

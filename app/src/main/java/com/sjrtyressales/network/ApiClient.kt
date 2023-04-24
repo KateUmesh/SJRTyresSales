@@ -1,5 +1,6 @@
 package com.sjrtyressales.network
 
+import com.sjrtyressales.utils.Constant
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,7 @@ class ApiClient {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl("https://anmey.in/")
+            .baseUrl(Constant.BASE_URL)
     }
 
     @Singleton

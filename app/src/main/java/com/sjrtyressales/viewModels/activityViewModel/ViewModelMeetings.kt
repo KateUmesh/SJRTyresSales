@@ -40,29 +40,28 @@ class ViewModelMeetings @Inject constructor(val repositoryAPI: RepositoryAPI,
                     if (response.isSuccessful) {
                         mModelStartMeetingResponse.value = response.body()
                     } else {
-                        mModelStartMeetingResponse.value = ModelStartMeetingResponse("", response.message())
+                        mModelStartMeetingResponse.value = ModelStartMeetingResponse("2", response.message(),null)
                     }
 
                 } catch (e: Exception) {
                     if (e is SocketTimeoutException) {
                         mModelStartMeetingResponse.value = ModelStartMeetingResponse(
-                            "",
-                            Constant.slow_internet_connection_detected
+                            "2",
+                            Constant.slow_internet_connection_detected,null
                         )
                     } else {
                         mModelStartMeetingResponse.value =
-                            ModelStartMeetingResponse("", Constant.something_went_wrong)
+                            ModelStartMeetingResponse("2", Constant.something_went_wrong,null)
                     }
                 }
             }
         }else{
-            mModelStartMeetingResponse.value = ModelStartMeetingResponse("",Constant.no_internet_connection)
+            mModelStartMeetingResponse.value = ModelStartMeetingResponse("2",Constant.no_internet_connection,null)
         }
 
     }
 
     fun checkMeetingNotEnd(){
-
         if(networkConnection.isNetworkConnected()) {
             viewModelScope.launch {
                 try {

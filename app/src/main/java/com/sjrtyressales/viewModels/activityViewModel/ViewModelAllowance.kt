@@ -31,19 +31,19 @@ class ViewModelAllowance @Inject constructor(
 
     var token = localSharedPreferences.getStringValue(Constant.token)
 
-    fun postAllowance(photo: MultipartBody.Part, title: RequestBody, amount: RequestBody){
+    fun postAllowance(photo: MultipartBody.Part, title: RequestBody, amount: RequestBody,latitude:RequestBody,longitude:RequestBody){
         if(networkConnection.isNetworkConnected()){
             viewModelScope.launch {
                 try {
 
-                    val response = mRepository.postAllowance(photo,title, amount)
+                    val response = mRepository.postAllowance(photo,title, amount,latitude, longitude)
                     if (response?.isSuccessful!!) {
                         mModelAllowanceResponse.value = response.body()
                     } else {
                         mModelAllowanceResponse.value =
                             ModelAllowanceResponse(
                                 "",
-                                response.message()
+                                response.message(),null
                             )
                     }
 
@@ -53,18 +53,18 @@ class ViewModelAllowance @Inject constructor(
                         mModelAllowanceResponse.value =
                             ModelAllowanceResponse(
                                 "",
-                                Constant.slow_internet_connection_detected
+                                Constant.slow_internet_connection_detected,null
                             )
                     else
                         mModelAllowanceResponse.value =
                             ModelAllowanceResponse(
                                 "",
-                                Constant.something_went_wrong
+                                Constant.something_went_wrong,null
                             )
                 }
             }
         }else{
-            mModelAllowanceResponse.value = ModelAllowanceResponse("",Constant.no_internet_connection)
+            mModelAllowanceResponse.value = ModelAllowanceResponse("",Constant.no_internet_connection,null)
         }
 
     }

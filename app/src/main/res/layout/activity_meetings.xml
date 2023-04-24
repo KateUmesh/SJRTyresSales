@@ -6,6 +6,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.sjrtyressales.model.MeetingData" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -37,12 +40,42 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:visibility="visible">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:orientation="vertical">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llMeeting1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:padding="16dp">
+
+                    <!-- Type-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/tiType"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Select type"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:inputType="none"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:singleLine="true"
+                            android:drawableEnd="@drawable/ic_arrow_drop_down_24dp"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <!--Shop Name-->
                     <com.google.android.material.textfield.TextInputLayout
@@ -70,6 +103,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/distributor_name"
                         android:layout_marginBottom="10dp"
+                        android:visibility="gone"
                         >
 
 
@@ -88,7 +122,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="15dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -103,13 +137,134 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSubmit"
+                        android:id="@+id/btnCreateMeeting"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         style="@style/primaryDarkBackground_button"
-                        android:text="@string/submit"
+                        android:text="@string/create_meeting"
                         android:textSize="16sp"
                         android:textAllCaps="false"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llMeeting2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@{data.meeting.shop_name}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey_90"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:visibility="gone"
+                        android:textStyle="bold" />
+                    <!--Shop Name-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{data.meeting.shop_name}"
+                                android:textColor="@color/grey_90" />
+
+
+                            <ImageView
+                                android:id="@+id/iv_login_tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/spacing_middle"
+                                android:layout_marginTop="2dp"
+                                android:src="@drawable/ic_login_tag" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="28dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="LIVE NOW"
+                            android:textSize="12sp"
+                            android:textColor="@color/main_blue"
+                            android:visibility="visible"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@{`Distributor name - `+data.meeting.distributor_name}"
+                        android:visibility="@{!data.meeting.distributor_name.empty,default=gone}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@{`Distributor mobile - `+data.meeting.distributor_mobile}"
+                        android:visibility="@{!data.meeting.distributor_mobile.empty,default=gone}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@{`Start date - `+data.meeting.meeting_start_date}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:text="@{`Start time - `+data.meeting.meeting_start_time}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEndMeeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        style="@style/primaryDarkBackground_button"
+                        android:text="@string/endMeeting"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

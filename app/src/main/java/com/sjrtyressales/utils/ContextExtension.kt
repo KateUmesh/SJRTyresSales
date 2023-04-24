@@ -37,6 +37,15 @@ fun callMeetingDetailsActivity(context: Context, meetingId: String) {
     context.startActivity(intent)
 }
 
+fun callLoginActivity(activity:Activity,inTimeDialog:String,inTimeDialogMessage:String) {
+    val intent = Intent(activity, LoginActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+    intent.putExtra(Constant.inTimeDialog,inTimeDialog)
+    intent.putExtra(Constant.inTimeDialogMessage,inTimeDialogMessage)
+    activity.startActivity(intent)
+    activity.finish()
+}
+
 fun callLoginActivity(activity:Activity) {
     val intent = Intent(activity, LoginActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -44,9 +53,13 @@ fun callLoginActivity(activity:Activity) {
     activity.finish()
 }
 
-fun callHomeActivity(activity:Activity) {
+
+
+fun callHomeActivity(activity:Activity,inTimeDialog:String,inTimeDialogMessage:String) {
     val intent = Intent(activity, HomeActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    intent.putExtra(Constant.inTimeDialog,inTimeDialog)
+    intent.putExtra(Constant.inTimeDialogMessage,inTimeDialogMessage)
     activity.startActivity(intent)
     activity.finish()
 }

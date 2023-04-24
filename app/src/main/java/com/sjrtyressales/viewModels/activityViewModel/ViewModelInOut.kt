@@ -31,6 +31,10 @@ class ViewModelInOut @Inject constructor(
     val SubmitInOutTimeResponse : LiveData<ModelSubmitInOutTimeResponse>
         get()= mModelSubmitInOutTimeResponse
 
+    var mModelSubmitOutTimeResponse = MediatorLiveData<ModelSubmitInOutTimeResponse>()
+    val SubmitOutTimeResponse : LiveData<ModelSubmitInOutTimeResponse>
+        get()= mModelSubmitOutTimeResponse
+
     var token = localSharedPreferences.getStringValue(Constant.token)
 
     fun getAttendance(){
@@ -71,24 +75,24 @@ class ViewModelInOut @Inject constructor(
                     if (response.isSuccessful) {
                         mModelSubmitInOutTimeResponse.value = response.body()
                     } else {
-                        mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse("", response.message())
+                        mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse("2", response.message(),null)
                     }
                 }catch(e:Exception){
                     if (e is SocketTimeoutException) {
                         mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse(
-                            "",
-                            Constant.slow_internet_connection_detected
+                            "2",
+                            Constant.slow_internet_connection_detected,null
                         )
                     } else {
                         mModelSubmitInOutTimeResponse.value =
-                            ModelSubmitInOutTimeResponse("", Constant.something_went_wrong)
+                            ModelSubmitInOutTimeResponse("2", Constant.something_went_wrong,null)
                     }
                 }
 
             }
 
         }else{
-            mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse("",Constant.no_internet_connection)
+            mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse("2",Constant.no_internet_connection,null)
         }
     }
 
@@ -98,26 +102,26 @@ class ViewModelInOut @Inject constructor(
                 try{
                     val response = repositoryAPI.submitOutTime(latitude,longitude)
                     if (response.isSuccessful) {
-                        mModelSubmitInOutTimeResponse.value = response.body()
+                        mModelSubmitOutTimeResponse.value = response.body()
                     } else {
-                        mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse("", response.message())
+                        mModelSubmitOutTimeResponse.value = ModelSubmitInOutTimeResponse("3", response.message(),null)
                     }
                 }catch(e:Exception){
                     if (e is SocketTimeoutException) {
-                        mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse(
-                            "",
-                            Constant.slow_internet_connection_detected
+                        mModelSubmitOutTimeResponse.value = ModelSubmitInOutTimeResponse(
+                            "3",
+                            Constant.slow_internet_connection_detected,null
                         )
                     } else {
-                        mModelSubmitInOutTimeResponse.value =
-                            ModelSubmitInOutTimeResponse("", Constant.something_went_wrong)
+                        mModelSubmitOutTimeResponse.value =
+                            ModelSubmitInOutTimeResponse("3", Constant.something_went_wrong,null)
                     }
                 }
 
             }
 
         }else{
-            mModelSubmitInOutTimeResponse.value = ModelSubmitInOutTimeResponse("",Constant.no_internet_connection)
+            mModelSubmitOutTimeResponse.value = ModelSubmitInOutTimeResponse("3",Constant.no_internet_connection,null)
         }
     }
 }

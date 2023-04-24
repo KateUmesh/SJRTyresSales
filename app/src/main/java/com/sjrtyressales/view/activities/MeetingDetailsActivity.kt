@@ -10,10 +10,7 @@ import com.sjrtyressales.R
 import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.databinding.ActivityHistoryBinding
 import com.sjrtyressales.databinding.ActivityMeetingDetailsBinding
-import com.sjrtyressales.utils.Constant
-import com.sjrtyressales.utils.logout
-import com.sjrtyressales.utils.showSnackBar
-import com.sjrtyressales.utils.toolbar
+import com.sjrtyressales.utils.*
 import com.sjrtyressales.viewModels.activityViewModel.ViewModelHistory
 import com.sjrtyressales.viewModels.activityViewModel.ViewModelMeetingDetails
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,9 +49,11 @@ class MeetingDetailsActivity : AppCompatActivity(),SnackBarCallback {
                     binding.llMeetingDetailsMain.visibility = View.VISIBLE
                     binding.data = it.data
                 } else if (it.status == "0") {
-                    /*if (it.data?.userActive == "0") {
-                        logout()
-                    }*/
+                    if (it.data?.userActive == "0") {
+                        logout(this)
+                    }else{
+                        snackBar(it.message,this)
+                    }
                 } else {
                     binding.includedLoader.llLoading.visibility = View.VISIBLE
                     binding.llMeetingDetailsMain.visibility = View.GONE

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activities.MeetingsActivity">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/toolbar_layout"/>
+                </com.google.android.material.appbar.AppBarLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.core.widget.NestedScrollView
+
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:visibility="visible">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llEndMeeting"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:padding="16dp">
+
+                    <!--Distributor Name-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/distributor_name"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="gone"
+                        >
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtDistributorName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Distributor Mobile-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:visibility="gone"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtDistributorMobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/distributor_mobile"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:maxLength="10"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Conclusion-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ti_address_edit"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:visibility="visible"
+                        android:hint="@string/conclusion"
+                        >
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtConclusion"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="textMultiLine"
+                            android:maxLines="10"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Photo-->
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
+                        android:id="@+id/coCapturePhoto"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/rectangular_bordershape"
+                        android:layout_marginBottom="@dimen/spacing_large"
+                        android:layout_height="200dp">
+
+                        <ImageView
+                            android:id="@+id/ivCapturePhoto"
+                            android:layout_width="match_parent"
+                            android:padding="10dp"
+                            android:src="@color/grey_20"
+                            android:layout_height="200dp"/>
+
+                        <LinearLayout
+                            android:id="@+id/llCapturePhoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/spacing_middle"
+                                app:tint="@color/grey_80"
+                                android:src="@drawable/ic_camera"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/capture_photo"/>
+
+                        </LinearLayout>
+
+
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                    <!--End Meeting-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEndMeeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        style="@style/primaryDarkBackground_button"
+                        android:text="@string/endMeeting"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <include
+            android:id="@+id/includedLoader"
+            layout="@layout/item_loading_layout"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

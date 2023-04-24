@@ -11,6 +11,7 @@ import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.databinding.ActivityDashboardBinding
 import com.sjrtyressales.utils.logout
 import com.sjrtyressales.utils.showSnackBar
+import com.sjrtyressales.utils.snackBar
 import com.sjrtyressales.utils.toolbar
 import com.sjrtyressales.viewModels.activityViewModel.ViewModelDashboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,9 +52,11 @@ class DashboardActivity : AppCompatActivity(),SnackBarCallback {
 
                     }
                 } else if (it.status == "0") {
-                    /*if (it.data?.userActive == "0") {
-                        logout()
-                    }*/
+                    if (it.data?.userActive == "0") {
+                        logout(this)
+                    }else{
+                        snackBar(it.message,this)
+                    }
                 } else {
                     binding.includedLoader.llLoading.visibility = View.VISIBLE
                     binding.llDashboardMain.visibility = View.GONE

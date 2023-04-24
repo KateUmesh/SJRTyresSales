@@ -6,15 +6,18 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -27,15 +30,17 @@ import com.sjrtyressales.databinding.ActivityInOutBinding
 import com.sjrtyressales.utils.*
 import com.sjrtyressales.viewModels.activityViewModel.ViewModelInOut
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.internal.notifyAll
+import org.greenrobot.eventbus.EventBus
 
 @AndroidEntryPoint
 class InOutActivity : AppCompatActivity(),SnackBarCallback {
 
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     var REQUEST_CODE_CHECK_SETTINGS=123
-    var mServiceIntent: Intent? = null
-    private var myReceiver: MyReceiver? = null
 
     private lateinit var mViewModel:ViewModelInOut
     private lateinit var binding:ActivityInOutBinding
@@ -43,18 +48,35 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
     private var latitude:Double=0.0
     private var longitude:Double=0.0
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    var isGPSEnabled = false
+    var isNetworkEnabled = false
+    var locationManager: LocationManager? = null
+    var inOut=0
+    private var service: Intent?=null
+    var mLocationService: LocationService1 = LocationService1()
+    lateinit var mServiceIntent: Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        myReceiver = MyReceiver()
         binding = DataBindingUtil.setContentView(this,R.layout.activity_in_out)
 
-        mServiceIntent = Intent(this, GpsTracker::class.java)
+        service = Intent(this, LocationService1::class.java)
+
+        /*stopService(service)
+        if(EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this)
+        }*/
 
         /**Toolbar*/
         toolbar(getString(R.string.in_out),true)
 
         /**Initialize View Model*/
         mViewModel = ViewModelProvider(this)[ViewModelInOut::class.java]
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager?
 
 
         /**Check user is log in or not*/
@@ -98,8 +120,24 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                             if (it.data?.inTimeButton == 1) {
                                 binding.btnInTime.visibility = View.VISIBLE
                                 binding.btnInTime.setOnClickListener {
-                                    binding.includedLoader.llLoading.visibility = View.VISIBLE
-                                    mViewModel.submitInTime(latitude, longitude)
+                                    inOut=1
+                                    if (checkPermission()) {
+                                        // getting GPS status
+                                        isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                                        // getting network status
+                                        isNetworkEnabled = locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                                        //toast("Permission granted in result")
+                                        if(isGPSEnabled&&isNetworkEnabled){
+                                            getLocation(inOut)
+                                        }else{
+                                            enableLocationSettings()
+                                        }
+
+                                    } else {
+                                        requestPermission()
+                                    }
+                                    /*binding.includedLoader.llLoading.visibility = View.VISIBLE
+                                    mViewModel.submitInTime(latitude, longitude)*/
                                 }
                             } else {
                                 binding.btnInTime.visibility = View.GONE
@@ -108,8 +146,24 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                             if (it.data?.outTimeButton == 1) {
                                 binding.btnOutTime.visibility = View.VISIBLE
                                 binding.btnOutTime.setOnClickListener {
-                                    binding.includedLoader.llLoading.visibility = View.VISIBLE
-                                    mViewModel.submitOutTime(latitude,longitude)
+                                    inOut=2
+                                    if (checkPermission()) {
+                                        // getting GPS status
+                                        isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                                        // getting network status
+                                        isNetworkEnabled = locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                                        //toast("Permission granted in result")
+                                        if(isGPSEnabled&&isNetworkEnabled){
+                                            getLocation(inOut)
+                                        }else{
+                                            enableLocationSettings()
+                                        }
+
+                                    } else {
+                                        requestPermission()
+                                    }
+                                    /*binding.includedLoader.llLoading.visibility = View.VISIBLE
+                                    mViewModel.submitOutTime(latitude,longitude)*/
                                 }
                             } else {
                                 binding.btnOutTime.visibility = View.GONE
@@ -117,7 +171,11 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                         }
                     }
                     "0" -> {
-                        snackBar(it.message, this)
+                        if (it.data?.userActive == "0") {
+                            logout(this)
+                        }else{
+                            snackBar(it.message,this)
+                        }
                     }
                     else -> {
                         showSnackBar(this, it.message)
@@ -133,7 +191,37 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
                         showOkDialog(it.message)
                     }
                     "0" -> {
-                        snackBar(it.message, this)
+                        if (it.data?.userActive == "0") {
+                            logout(this)
+                        }else{
+                            snackBar(it.message,this)
+                        }
+                    }
+                    else -> {
+                        callback = it.status
+                        showSnackBar(this, it.message)
+                    }
+                }
+            }
+
+            /**Response of submitOutTime GET api*/
+            mViewModel.SubmitOutTimeResponse.observe(this) {
+                binding.includedLoader.llLoading.visibility = View.GONE
+                when (it.status) {
+                    "1" -> {
+                        /*stopService(service)
+                        if(EventBus.getDefault().isRegistered(this)){
+                            EventBus.getDefault().unregister(this)
+                        }*/
+                        stopServiceFunc()
+                        showOkDialog(it.message)
+                    }
+                    "0" -> {
+                        if (it.data?.userActive == "0") {
+                            logout(this)
+                        }else{
+                            snackBar(it.message,this)
+                        }
                     }
                     else -> {
                         callback = it.status
@@ -159,24 +247,6 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
             mViewModel.getAttendance()
         }
         builder.show()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onStart() {
-        super.onStart()
-        if (checkPermission()) {
-            startMyNavigationService()
-        } else {
-            requestPermission()
-        }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            myReceiver!!, IntentFilter(GpsTracker.ACTION_BROADCAST)
-        )
     }
 
 
@@ -205,51 +275,49 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        /*if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startMyNavigationService()
         } else if (grantResults.isNotEmpty() && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             startMyNavigationService()
         } else {
 
-        }
+        }*/
 
-
-    }
-
-    fun startMyNavigationService(){
-        if(mServiceIntent!=null){
-            startService(mServiceIntent)
-        }
-    }
-
-    fun stopMyNavigationService(){
-        if(mServiceIntent!=null){
-            stopService(mServiceIntent)
-        }
-    }
-
-    private inner class MyReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-
-            val status = intent.getBooleanExtra(GpsTracker.EXTRA_STATUS, false)
-            if (status) {
-                val location = intent.getParcelableExtra<Location>(GpsTracker.EXTRA_LOCATION)
-                LocalBroadcastManager.getInstance(this@InOutActivity).unregisterReceiver(myReceiver!!)
-                stopMyNavigationService()
-                if (location != null) {
-                    latitude = location.latitude
-                    longitude = location.longitude
-                    Log.e("latitude","Lat:"+latitude+", Long:"+longitude)
-                } else {
-
-                }
-            } else {
-                LocalBroadcastManager.getInstance(this@InOutActivity).unregisterReceiver(myReceiver!!)
-                stopMyNavigationService()
+        if((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)&&( grantResults[1] == PackageManager.PERMISSION_GRANTED)){
+            //toast("Permission granted in result")
+            isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            // getting network status
+            isNetworkEnabled = locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            if(isGPSEnabled&&isNetworkEnabled){
+                getLocation(inOut)
+            }else{
                 enableLocationSettings()
             }
-
+        }else{
+            showOkDialog2(getString(R.string.location_permission_rationale),this)
         }
+
+
+    }
+
+    fun showOkDialog2(message: String, context: Context) {
+        val builder =
+            AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.allow_permission) as CharSequence)
+        builder.setMessage(message)
+        builder.setPositiveButton(
+            R.string.Ok
+        ) { _, _ ->
+            requestPermission()
+
+            /* val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+             val uri = Uri.fromParts("package", packageName, null)
+             intent.data = uri
+             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+             startActivity(intent)*/
+        }
+
+        builder.show()
     }
 
     fun enableLocationSettings() {
@@ -282,6 +350,19 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
     }
 
     override fun snackBarSuccessInternetConnection() {
+        when(callback){
+            "2"->{
+                binding.includedLoader.llLoading.visibility = View.VISIBLE
+                mViewModel.submitInTime(latitude,longitude)
+            }
+            "3"->{
+                binding.includedLoader.llLoading.visibility = View.VISIBLE
+                mViewModel.submitOutTime(latitude,longitude)
+            }
+            else->{
+                mViewModel.getAttendance()
+            }
+        }
 
     }
 
@@ -293,10 +374,50 @@ class InOutActivity : AppCompatActivity(),SnackBarCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (REQUEST_CODE_CHECK_SETTINGS == requestCode) {
             if (RESULT_OK == resultCode) {
-                startMyNavigationService()
+                getLocation(inOut)
             } else {
-
+                enableLocationSettings()
             }
+        }
+    }
+
+    fun getLocation(inOut:Int){
+        if (ActivityCompat.checkSelfPermission(
+                this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSIONS_REQUEST_CODE);
+        }else{
+
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                    location : Location? ->
+                if (location != null) {
+                    val lat = location.latitude
+                    val longi = location.longitude
+                    Log.e("latitude","Lat:"+lat+", Long:"+longi)
+                    if(inOut==1){
+                        binding.includedLoader.llLoading.visibility = View.VISIBLE
+                        mViewModel.submitInTime(lat,longi)
+                    }else if(inOut==2){
+                        binding.includedLoader.llLoading.visibility = View.VISIBLE
+                        mViewModel.submitOutTime(lat,longi)
+                    }
+                } else {
+                    getLocation(inOut)
+                    //Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+    }
+
+    private fun stopServiceFunc(){
+        mLocationService = LocationService1()
+        mServiceIntent = Intent(this, mLocationService.javaClass)
+        if (Util.isMyServiceRunning(mLocationService.javaClass, this)) {
+            stopService(mServiceIntent)
+            Toast.makeText(this, "Service stopped!!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Service is already stopped!!", Toast.LENGTH_SHORT).show()
         }
     }
 
