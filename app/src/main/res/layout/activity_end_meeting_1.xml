@@ -10,7 +10,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activities.EndMeeting1Activity">
+        tools:context=".screens.endMeeting.view.EndMeeting1Activity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

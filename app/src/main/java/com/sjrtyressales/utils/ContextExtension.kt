@@ -14,9 +14,9 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.sjrtyressales.R
 import com.sjrtyressales.callbacks.SnackBarCallback
-import com.sjrtyressales.view.activities.HomeActivity
-import com.sjrtyressales.view.activities.LoginActivity
-import com.sjrtyressales.view.activities.MeetingDetailsActivity
+import com.sjrtyressales.screens.home.view.HomeActivity
+import com.sjrtyressales.screens.login.view.LoginActivity
+import com.sjrtyressales.screens.meetingDetails.view.MeetingDetailsActivity
 
 
 fun Context.toast(message: CharSequence) =

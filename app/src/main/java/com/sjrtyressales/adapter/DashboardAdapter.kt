@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sjrtyressales.databinding.ItemDashboardListBinding
-import com.sjrtyressales.model.RecentMeetingsList
-import com.sjrtyressales.model.TodaysMeetingsList
+import com.sjrtyressales.screens.dashboard.model.RecentMeetingsList
+
 import com.sjrtyressales.utils.callMeetingDetailsActivity
 import javax.inject.Inject
 

@@ -1,6 +1,25 @@
 package com.sjrtyressales.network
 
-import com.sjrtyressales.model.*
+import com.sjrtyressales.screens.allowance.model.ModelAllowanceResponse
+import com.sjrtyressales.screens.changePassword.model.ModelChangePasswordRequest
+import com.sjrtyressales.screens.changePassword.model.ModelChangePasswordResponse
+import com.sjrtyressales.screens.dashboard.model.ModelDashboardResponse
+import com.sjrtyressales.screens.endMeeting.model.ModelEndMeetingResponse
+import com.sjrtyressales.screens.history.model.ModelHistoryResponse
+import com.sjrtyressales.screens.home.model.ModelMyProfileResponse
+import com.sjrtyressales.screens.home.model.ModelProfilePhotoResponse
+import com.sjrtyressales.screens.inOut.model.ModelAttendanceResponse
+import com.sjrtyressales.screens.inOut.model.ModelSubmitInOutTimeResponse
+import com.sjrtyressales.screens.login.model.ModelLoginRequest
+import com.sjrtyressales.screens.login.model.ModelLoginResponse
+import com.sjrtyressales.screens.meetingDetails.model.ModelViewMeetingDetailsResponse
+import com.sjrtyressales.screens.meetings.model.ModelCheckMeetingNotEndResponse
+import com.sjrtyressales.screens.meetings.model.ModelStartMeetingRequest
+import com.sjrtyressales.screens.meetings.model.ModelStartMeetingResponse
+import com.sjrtyressales.screens.splashScreen.model.ModelAppStatusRequest
+import com.sjrtyressales.screens.splashScreen.model.ModelAppStatusResponse
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationRequest
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationResponse
 import com.sjrtyressales.utils.Constant
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

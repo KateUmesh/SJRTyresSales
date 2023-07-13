@@ -8,7 +8,7 @@
 
         <variable
             name="listItem"
-            type="com.sjrtyressales.model.RecentMeetingsList" />
+            type="com.sjrtyressales.screens.dashboard.model.RecentMeetingsList" />
     </data>
 
 

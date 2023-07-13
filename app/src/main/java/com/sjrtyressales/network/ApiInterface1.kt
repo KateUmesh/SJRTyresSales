@@ -1,12 +1,11 @@
 package com.sjrtyressales.network
 
-import com.sjrtyressales.model.ModelUpdateLiveLocationRequest
-import com.sjrtyressales.model.ModelUpdateLiveLocationResponse
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationRequest
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationResponse
 import com.sjrtyressales.utils.Constant
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.HeaderMap
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import java.util.*
 

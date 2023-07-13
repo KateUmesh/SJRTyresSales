@@ -1,11 +1,13 @@
 package com.sjrtyressales.repository
 
-import com.sjrtyressales.model.*
 import com.sjrtyressales.network.ApiInterface
+import com.sjrtyressales.screens.changePassword.model.ModelChangePasswordRequest
+import com.sjrtyressales.screens.login.model.ModelLoginRequest
+import com.sjrtyressales.screens.meetings.model.ModelStartMeetingRequest
+import com.sjrtyressales.screens.splashScreen.model.ModelAppStatusRequest
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Part
-import retrofit2.http.Path
 import javax.inject.Inject
 
 class RepositoryAPI @Inject constructor(private val apiInterface: ApiInterface) {

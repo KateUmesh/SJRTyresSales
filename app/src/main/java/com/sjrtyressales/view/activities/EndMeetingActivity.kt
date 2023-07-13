@@ -12,11 +12,9 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
@@ -34,7 +32,7 @@ import com.sjrtyressales.R
 import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.databinding.ActivityEndMeetingBinding
 import com.sjrtyressales.utils.*
-import com.sjrtyressales.viewModels.activityViewModel.ViewModelEndMeeting
+import com.sjrtyressales.screens.endMeeting.viewModel.ViewModelEndMeeting
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
@@ -45,7 +43,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class EndMeetingActivity : AppCompatActivity(),SnackBarCallback {
     private lateinit var binding:ActivityEndMeetingBinding
-    private lateinit var mViewModel:ViewModelEndMeeting
+    private lateinit var mViewModel: ViewModelEndMeeting
     @Inject
     lateinit var mUploadPhoto: UploadPhoto
 

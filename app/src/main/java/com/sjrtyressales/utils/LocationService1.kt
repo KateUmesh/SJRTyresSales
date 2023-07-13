@@ -10,14 +10,13 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.*
-import com.sjrtyressales.model.ModelUpdateLiveLocationRequest
-import com.sjrtyressales.model.ModelUpdateLiveLocationResponse
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationRequest
+import com.sjrtyressales.screens.splashScreen.model.ModelUpdateLiveLocationResponse
 import com.sjrtyressales.network.ApiClient2
 import retrofit2.Call
 import retrofit2.Callback

@@ -8,7 +8,7 @@
 
         <variable
             name="listItem"
-            type="com.sjrtyressales.model.MeetingHistoryList" />
+            type="com.sjrtyressales.screens.history.model.MeetingHistoryList" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

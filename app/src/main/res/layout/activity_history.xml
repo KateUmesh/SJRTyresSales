@@ -8,14 +8,14 @@
 
         <variable
             name="historyData"
-            type="com.sjrtyressales.model.HistoryData" />
+            type="com.sjrtyressales.screens.history.model.HistoryData" />
 
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activities.HistoryActivity">
+        tools:context=".screens.history.view.HistoryActivity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

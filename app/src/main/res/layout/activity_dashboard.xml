@@ -9,7 +9,7 @@
     <data>
         <variable
             name="dashboardData"
-            type="com.sjrtyressales.model.DashboardData" />
+            type="com.sjrtyressales.screens.dashboard.model.DashboardData" />
     </data>
 
     <!--<androidx.coordinatorlayout.widget.CoordinatorLayout

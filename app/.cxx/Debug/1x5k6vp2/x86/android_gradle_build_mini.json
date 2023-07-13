@@ -1,0 +1,33 @@
+{
+  "buildFiles": [
+    "D:\\Android Projects\\SJRTyresSales\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\Marriagewale.com\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+      "-C",
+      "D:\\Android Projects\\SJRTyresSales\\app\\.cxx\\Debug\\1x5k6vp2\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\Marriagewale.com\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+    "-C",
+    "D:\\Android Projects\\SJRTyresSales\\app\\.cxx\\Debug\\1x5k6vp2\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "native-lib-Debug-x86": {
+      "artifactName": "native-lib",
+      "buildCommandComponents": [
+        "C:\\Users\\Marriagewale.com\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "-C",
+        "D:\\Android Projects\\SJRTyresSales\\app\\.cxx\\Debug\\1x5k6vp2\\x86",
+        "native-lib"
+      ],
+      "abi": "x86",
+      "output": "D:\\Android Projects\\SJRTyresSales\\app\\build\\intermediates\\cxx\\Debug\\1x5k6vp2\\obj\\x86\\libnative-lib.so",
+      "runtimeFiles": []
+    }
+  }
+}

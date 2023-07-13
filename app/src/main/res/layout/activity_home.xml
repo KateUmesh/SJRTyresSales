@@ -7,7 +7,7 @@
     <data>
         <variable
             name="data"
-            type="com.sjrtyressales.model.MyProfileData" />
+            type="com.sjrtyressales.screens.home.model.MyProfileData" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

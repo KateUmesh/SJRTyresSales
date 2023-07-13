@@ -6,14 +6,10 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
@@ -29,11 +25,10 @@ import com.sjrtyressales.BuildConfig
 import com.sjrtyressales.R
 import com.sjrtyressales.callbacks.SnackBarCallback
 import com.sjrtyressales.databinding.ActivitySplashScreenBinding
-import com.sjrtyressales.model.LocationEvent
-import com.sjrtyressales.model.ModelAppStatusRequest
-import com.sjrtyressales.model.ModelUpdateLiveLocationRequest
+import com.sjrtyressales.screens.splashScreen.model.LocationEvent
+import com.sjrtyressales.screens.splashScreen.model.ModelAppStatusRequest
 import com.sjrtyressales.utils.*
-import com.sjrtyressales.viewModels.activityViewModel.ViewModelSplashScreen
+import com.sjrtyressales.screens.splashScreen.viewModel.ViewModelSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -42,7 +37,7 @@ import org.greenrobot.eventbus.Subscribe
 class SplashScreenActivity : AppCompatActivity(),SnackBarCallback {
     var mLocationService: LocationService1 = LocationService1()
     lateinit var mServiceIntent: Intent
-    private lateinit var mViewModel:ViewModelSplashScreen
+    private lateinit var mViewModel: ViewModelSplashScreen
 
     var isGPSEnabled = false
     var isNetworkEnabled = false

@@ -9,9 +9,8 @@ import com.bumptech.glide.Glide
 import com.sjrtyressales.R
 import com.sjrtyressales.adapter.DashboardAdapter
 import com.sjrtyressales.adapter.HistoryAdapter
-import com.sjrtyressales.model.MeetingHistoryList
-import com.sjrtyressales.model.RecentMeetingsList
-import com.sjrtyressales.model.TodaysMeetingsList
+import com.sjrtyressales.screens.history.model.MeetingHistoryList
+import com.sjrtyressales.screens.dashboard.model.RecentMeetingsList
 
 @BindingAdapter("imageFromUrl")
 fun ImageView.imageFromUrl(url: String?) {
