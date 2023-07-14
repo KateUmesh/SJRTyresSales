@@ -11,15 +11,19 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -34,6 +38,11 @@ import com.sjrtyressales.screens.splashScreen.model.LocationEvent
 import com.sjrtyressales.utils.*
 import com.sjrtyressales.screens.allowance.viewModel.ViewModelAllowance
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -66,6 +75,7 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
     var locationManager:LocationManager? = null
     private var fileUri: File? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_allowance)
@@ -86,14 +96,20 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
         cameraResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
             if(result.resultCode == Activity.RESULT_OK){
                 /*mUploadPhoto.setImage(fileUri?.toUri()!!, this, binding.ivCapturePhoto)
-                Log.e("path",fileUri?.path!!)
+                //Log.e("path",fileUri?.path!!)
+                Log.e("FileUri",(fileUri).toString())
                 Log.e("toUri",(fileUri?.toUri()!!).toString())
                 Log.e("absolutePath",fileUri?.absolutePath.toString())
                 uriFilePath = ("file://"+ getFilePathFromUri(this,fileUri?.toUri()!!,false)).toUri()
                 Log.e("uriFilePath","uriFilePath : - "+uriFilePath)*/
                 //uriFilePath = ("file://"+ getFilePathFromUri(this,fileUri?.absolutePath!!,false)).toUri()
                 //file:///data/user/0/com.sjrtyressales/cache/temp_file_.jpg
-                try {
+
+                //uriFilePath : - file:///data/user/0/com.sjrtyressales/cache/temp_file_.jpg
+
+                //uriFilePath : - file:///data/user/0/com.sjrtyressales/cache/temp_file_.jpg
+
+                /*try {
                     if (result?.data != null) {
                         val photo: Bitmap = result.data?.extras?.get("data") as Bitmap
                         val mImageName = "IMG_" + System.currentTimeMillis().toString()
@@ -109,7 +125,7 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
                                     imageToUploadUri,
                                     false
                                 )).toUri()
-                            Log.e("uriFilePath", "uriFilePath : - " + uriFilePath)
+                            Log.e("uriFilePath123", "uriFilePath : - " + uriFilePath)
                             mUploadPhoto.setImage(finalUri, this, binding.ivCapturePhoto)
                         } else {
                             imageToUploadUri =
@@ -121,15 +137,22 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
                                     imageToUploadUri,
                                     false
                                 )).toUri()
-                            Log.e("uriFilePath", "uriFilePath : - " + uriFilePath)
+                            Log.e("uriFilePath123", "uriFilePath : - " + uriFilePath)
                             mUploadPhoto.setImage(finalUri, this, binding.ivCapturePhoto)
                         }
                     }
                 }catch(e:Exception){
                     e.printStackTrace()
-                }
+                }*/
 
                 //mUploadPhoto.launchImageCrop(imageToUploadUri,cropImage)
+
+                binding.pbLoading.visibility = View.VISIBLE
+                try{
+                    handleImageRequest(fileUri)
+                }catch(e:Exception){
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -139,8 +162,9 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
         }*/
 
         binding.coCapturePhoto.setOnClickListener {
-            //fileUri=mUploadPhoto.checkPermissionsToOpenCamera(this,requestMultiplePermissions,cameraResultLauncher)
-            mUploadPhoto.checkPermissionsToOpenCamera(this,requestMultiplePermissions,cameraResultLauncher)
+            fileUri=mUploadPhoto.checkPermissionsToOpenCamera(this,requestMultiplePermissions,cameraResultLauncher)
+            //mUploadPhoto.checkPermissionsToOpenCamera(this,requestMultiplePermissions,cameraResultLauncher)
+            //openCamera()
         }
 
 
@@ -233,8 +257,8 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
     ) { permissions ->
         val granted = permissions.entries.all { it.value }
         if (granted) {
-            //fileUri=mUploadPhoto.openCamera(this,cameraResultLauncher)
-            mUploadPhoto.openCamera(cameraResultLauncher)
+            fileUri=mUploadPhoto.openCamera(this,cameraResultLauncher)
+            //mUploadPhoto.openCamera(cameraResultLauncher)
         }else{
             showOkDialog1(getString(R.string.camera_permission_rationale),this)
         }
@@ -416,6 +440,28 @@ class AllowanceActivity : AppCompatActivity(),SnackBarCallback {
         Log.e("Longitude", "LongitudeAllowance -> ${locationEvent.longitude}")
         latitude = locationEvent.latitude!!.toString()
         longitude = locationEvent.longitude!!.toString()
+
+    }
+
+
+    private fun handleImageRequest(file: File?) {
+        val exceptionHandler = CoroutineExceptionHandler { _, t ->
+            t.printStackTrace()
+            Toast.makeText(
+                this,
+                t.localizedMessage ?: getString(R.string.something_went_wrong_please_try_again_later),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        CoroutineScope(Dispatchers.Main + exceptionHandler).launch {
+            val imageUri = file?.toUri()
+            var queryImageUrl = imageUri?.path!!
+            queryImageUrl = compressImageFile(queryImageUrl, false, imageUri)
+            uriFilePath = Uri.fromFile(File(queryImageUrl))
+            mUploadPhoto.setImage(imageUri, this@AllowanceActivity, binding.ivCapturePhoto)
+            binding.pbLoading.visibility = View.GONE
+        }
 
     }
 

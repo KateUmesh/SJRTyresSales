@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Nullable
@@ -33,6 +34,11 @@ import com.sjrtyressales.databinding.ActivityEndMeeting1Binding
 import com.sjrtyressales.utils.*
 import com.sjrtyressales.screens.endMeeting.viewModel.ViewModelEndMeeting
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -68,6 +74,7 @@ class EndMeeting1Activity : AppCompatActivity(), SnackBarCallback {
     private var meetingId: Int = 0
 
     private var fileUri: File? = null
+    private var queryImageUrl: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +102,7 @@ class EndMeeting1Activity : AppCompatActivity(), SnackBarCallback {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     //mUploadPhoto.setImage(fileUri?.toUri()!!, this, binding.ivCapturePhoto)
+                   /* Log.e("fileUri","FileUri ->" +fileUri?.toUri()!!)
                     try {
                         if(result.data!=null) {
                             val photo: Bitmap = result.data?.extras?.get("data") as Bitmap
@@ -127,9 +135,16 @@ class EndMeeting1Activity : AppCompatActivity(), SnackBarCallback {
                         }
                     }catch (e:Exception){
                         e.printStackTrace()
-                    }
+                    }*/
 
                     //mUploadPhoto.launchImageCrop(imageToUploadUri,cropImage)
+
+                    binding.pbLoading.visibility = View.VISIBLE
+                    try{
+                        handleImageRequest(fileUri)
+                    }catch(e:Exception){
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -240,9 +255,9 @@ class EndMeeting1Activity : AppCompatActivity(), SnackBarCallback {
     ) { permissions ->
         val granted = permissions.entries.all { it.value }
         if (granted) {
-             toast("Permissions Granted")
-            //fileUri = mUploadPhoto.openCamera(this,cameraResultLauncher)
-             mUploadPhoto.openCamera(cameraResultLauncher)
+             //toast("Permissions Granted")
+            fileUri = mUploadPhoto.openCamera(this,cameraResultLauncher)
+            // mUploadPhoto.openCamera(cameraResultLauncher)
         } else {
             showOkDialog1(getString(R.string.camera_permission_rationale), this)
         }
@@ -436,6 +451,43 @@ class EndMeeting1Activity : AppCompatActivity(), SnackBarCallback {
                 }
             }
         }
+    }
+
+    private fun handleImageRequest(file: File?) {
+        val exceptionHandler = CoroutineExceptionHandler { _, t ->
+            t.printStackTrace()
+            Toast.makeText(
+                this,
+                t.localizedMessage ?: getString(R.string.something_went_wrong_please_try_again_later),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        /*GlobalScope.launch(Dispatchers.Main + exceptionHandler) {
+
+            var imageUri1 = file?.toUri()
+            queryImageUrl = imageUri1?.path!!
+            queryImageUrl = compressImageFile(queryImageUrl, false, imageUri1!!)
+
+            imageUri1 = Uri.fromFile(File(queryImageUrl))
+            uriFilePath = Uri.fromFile(File(queryImageUrl))
+            mUploadPhoto.setImage(imageUri1, this@EndMeeting1Activity, binding.ivCapturePhoto)
+            Log.e("ImageURI","ImageURI ->"+imageUri1)
+            Log.e("queryImageUrl","queryImageUrl ->"+queryImageUrl)
+
+
+        }*/
+
+        CoroutineScope(Dispatchers.Main + exceptionHandler).launch {
+            var imageUri1 = file?.toUri()
+            queryImageUrl = imageUri1?.path!!
+            queryImageUrl = compressImageFile(queryImageUrl, false, imageUri1)
+            imageUri1 = Uri.fromFile(File(queryImageUrl))
+            uriFilePath = Uri.fromFile(File(queryImageUrl))
+            mUploadPhoto.setImage(imageUri1, this@EndMeeting1Activity, binding.ivCapturePhoto)
+            binding.pbLoading.visibility = View.GONE
+        }
+
     }
 
 }

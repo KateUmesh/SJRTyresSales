@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -29,6 +30,7 @@ import com.sjrtyressales.databinding.DialogUploadProfilePhotoBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -57,8 +59,8 @@ class UploadPhoto @Inject constructor() {
                 // Permission is not granted
                 requestPermission1(requestMultiplePermissions)
             } else {
-                openCamera(cameraResultLauncher)
-                //openCamera(context,cameraResultLauncher)
+                //openCamera(cameraResultLauncher)
+                openCamera(context,cameraResultLauncher)
             }
         } else {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) +
@@ -75,8 +77,8 @@ class UploadPhoto @Inject constructor() {
                 // Permission is not granted
                 requestPermission(requestMultiplePermissions)
             } else {
-               openCamera(cameraResultLauncher)
-                //openCamera(context,cameraResultLauncher)
+               //openCamera(cameraResultLauncher)
+                openCamera(context,cameraResultLauncher)
             }
         }
         return fileUri
@@ -156,6 +158,20 @@ class UploadPhoto @Inject constructor() {
         }
 
         return imageUri!!
+    }
+
+    fun compressImage(file: File):Bitmap{
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        try{
+            val outputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream)
+            Objects.requireNonNull(outputStream).close()
+
+        }catch(e:Exception){
+            e.printStackTrace()
+        }
+
+        return bitmap
     }
 
 

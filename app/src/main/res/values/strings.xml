@@ -83,6 +83,6 @@
     <string name="background_location_permission_message">Please select Allow all the time option.</string>
     <string name="service_start_successfully">Service started successfully</string>
     <string name="service_already_running">Service already running</string>
-
+    <string name="something_went_wrong_please_try_again_later">Something went wrong, please try again later</string>
 
 </resources>

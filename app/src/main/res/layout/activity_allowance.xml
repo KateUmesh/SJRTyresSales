@@ -134,6 +134,15 @@
 
                         </LinearLayout>
 
+                        <ProgressBar
+                            style="@style/Widget.AppCompat.ProgressBar"
+                            android:layout_width="@dimen/progress_bar_size"
+                            android:layout_height="@dimen/progress_bar_size"
+                            android:id="@+id/pb_loading"
+                            android:layout_gravity="center"
+                            android:indeterminateTint="@color/colorPrimary"
+                            android:visibility="gone"/>
+
 
                     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
